@@ -11,14 +11,26 @@ export default function App() {
    * checks if the user has not won, everytime dice[] is modified
    */
   React.useEffect(() => {
-    console.log("Dice state changed");
+    handleWin();
   }, [dice]); // dependencies array
 
   /**
-   * handles winning, winning conditions are:
-   *
+   * handles winning (updates `tenzies`), winning conditions are:
+   *    1. all dice are held, and
+   *    2. all dice have the same value
    */
-  function handleWin() {}
+  function handleWin() {
+    for (let i = 0; i < dice.length - 1; i++) {
+      let die = dice[i];
+      let nextDie = dice[i + 1];
+      if (!die.isHeld || die.value !== nextDie.value) {
+        return;
+      }
+    }
+    // if we made it here, the user has won
+    setTenzies(true);
+    console.log("you wooooon!");
+  }
 
   /**
    * creates a new die
@@ -43,20 +55,34 @@ export default function App() {
   }
 
   /**
+   * wipes down all state, to start a new game
+   */
+  function newGame() {
+    setDice(allNewDice());
+    setTenzies(false);
+  }
+
+  /**
    * re-rolls only the dice that are not currently being held
    */
   function rollDice() {
-    // return the new state
-    setDice((prevDice) => {
-      return prevDice.map((die) => {
-        if (die.isHeld) {
-          return die; // do not touch this
-        } else {
-          // re-roll (get a new die)
-          return createNewDie();
-        }
+    if (tenzies) {
+      // if they won, let them play a new game
+      newGame();
+    } else {
+      // let them re-roll the dice
+      // return the new state
+      setDice((prevDice) => {
+        return prevDice.map((die) => {
+          if (die.isHeld) {
+            return die; // do not touch this
+          } else {
+            // re-roll (get a new die)
+            return createNewDie();
+          }
+        });
       });
-    });
+    }
   }
 
   /**
@@ -102,7 +128,7 @@ export default function App() {
       </p>
       <div className='dice-container'>{diceElements}</div>
       <button className='roll-dice' onClick={rollDice}>
-        Roll Dice
+        {tenzies ? "New Game" : "Roll Dice"}
       </button>
     </main>
   );
