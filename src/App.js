@@ -11,14 +11,17 @@ import { useWindowSize } from "@react-hook/window-size";
 /**
  *  TODO:
  *  - track the number of rolls to win [x]
- *  - track time it took to win
- *  - save best noRolls / time to localStorage, so you can beat yourself
+ *  - save best noRolls to localStorage, so you can beat yourself
+ *      if nothing in LC, save the state of noRolls after the user has won
+ *      if something these, compare, only save if better
  */
 
 export default function App() {
   const [dice, setDice] = React.useState(allNewDice()); // initialise an array of random numbers
   const [tenzies, setTenzies] = React.useState(false); // state representing if the user has won
   const [noRolls, setNoRolls] = React.useState(0);
+
+  const [allTimeBest, setAllTimeBest] = React.useState(0); // must be grabbed from localStorage
 
   const [width, height] = useWindowSize(); // for the Confetti component
 

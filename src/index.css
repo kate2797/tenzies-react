@@ -82,18 +82,38 @@ main {
     background-color: #5035ffcf;
 }
 
-.stats {
-    display: block;
+.stats-container {
     background-color: #F5F5F5;
-    height: 70px;
+    height: 110px;
     max-width: 434px;
     border-radius: 5px;
     padding: 20px;
+    margin: 20px auto;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
-    margin: auto;
-    margin-top: 20px;
+    align-items: center;
+}
+
+.stat {
+    margin-right: 60px;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+
+.stats-data {
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0 0 10px 0;
+}
+
+.stats-description {
+    margin: 0;
 }
 
 .footer {
