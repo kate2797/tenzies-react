@@ -7,7 +7,8 @@ import { useWindowSize } from "@react-hook/window-size";
 export default function App() {
   const [dice, setDice] = React.useState(allNewDice()); // initialise an array of random numbers
   const [tenzies, setTenzies] = React.useState(false); // state representing if the user has won
-  const [width, height] = useWindowSize();
+
+  const [width, height] = useWindowSize(); // for the Confetti component
 
   /**
    * checks if the user has not won, everytime dice[] is modified
@@ -123,16 +124,18 @@ export default function App() {
 
   return (
     <main>
-      {tenzies && <Confetti width={width} height={height} />}
-      <h1 className='title'>Tenzies</h1>
-      <p className='instructions'>
-        Roll until all dice are the same. Click each die to freeze it at its
-        current value between rolls.
-      </p>
-      <div className='dice-container'>{diceElements}</div>
-      <button className='roll-dice' onClick={rollDice}>
-        {tenzies ? "New Game" : "Roll Dice"}
-      </button>
+      <div className='game-container'>
+        {tenzies && <Confetti width={width} height={height} />}
+        <h1 className='title'>Tenzies</h1>
+        <p className='instructions'>
+          Roll until all dice are the same. Click each die to freeze it at its
+          current value between rolls.
+        </p>
+        <div className='dice-container'>{diceElements}</div>
+        <button className='roll-dice' onClick={rollDice}>
+          {tenzies ? "New Game" : "Roll Dice"}
+        </button>
+      </div>
     </main>
   );
 }
