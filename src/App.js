@@ -1,5 +1,6 @@
 import React from "react";
 import Die from "./components/Die";
+import Footer from "./components/Footer";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 import { useWindowSize } from "@react-hook/window-size";
@@ -123,19 +124,22 @@ export default function App() {
   });
 
   return (
-    <main>
-      <div className='game-container'>
-        {tenzies && <Confetti width={width} height={height} />}
-        <h1 className='title'>Tenzies</h1>
-        <p className='instructions'>
-          Roll until all dice are the same. Click each die to freeze it at its
-          current value between rolls.
-        </p>
-        <div className='dice-container'>{diceElements}</div>
-        <button className='roll-dice' onClick={rollDice}>
-          {tenzies ? "New Game" : "Roll Dice"}
-        </button>
-      </div>
-    </main>
+    <>
+      <main>
+        <div className='game-container'>
+          {tenzies && <Confetti width={width} height={height} />}
+          <h1 className='title'>Tenzies</h1>
+          <p className='instructions'>
+            Roll until all dice are the same. Click each die to freeze it at its
+            current value between rolls.
+          </p>
+          <div className='dice-container'>{diceElements}</div>
+          <button className='roll-dice' onClick={rollDice}>
+            {tenzies ? "New Game" : "Roll Dice"}
+          </button>
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 }
