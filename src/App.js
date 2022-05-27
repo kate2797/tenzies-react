@@ -1,13 +1,24 @@
 import React from "react";
+
 import Die from "./components/Die";
 import Footer from "./components/Footer";
+import Stats from "./components/Stats";
+
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 import { useWindowSize } from "@react-hook/window-size";
 
+/**
+ *  TODO:
+ *  - track the number of rolls to win [x]
+ *  - track time it took to win
+ *  - save best noRolls / time to localStorage, so you can beat yourself
+ */
+
 export default function App() {
   const [dice, setDice] = React.useState(allNewDice()); // initialise an array of random numbers
   const [tenzies, setTenzies] = React.useState(false); // state representing if the user has won
+  const [noRolls, setNoRolls] = React.useState(0);
 
   const [width, height] = useWindowSize(); // for the Confetti component
 
@@ -64,6 +75,7 @@ export default function App() {
   function newGame() {
     setDice(allNewDice());
     setTenzies(false);
+    setNoRolls(0);
   }
 
   /**
@@ -86,6 +98,8 @@ export default function App() {
           }
         });
       });
+      // track noRolls
+      setNoRolls((prevNoRolls) => prevNoRolls + 1);
     }
   }
 
@@ -139,6 +153,7 @@ export default function App() {
           </button>
         </div>
       </main>
+      {noRolls > 0 && <Stats noRolls={noRolls} />}
       <Footer />
     </>
   );
