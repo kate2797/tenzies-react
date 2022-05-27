@@ -5,6 +5,20 @@ import Confetti from "react-confetti";
 
 export default function App() {
   const [dice, setDice] = React.useState(allNewDice()); // initialise an array of random numbers
+  const [tenzies, setTenzies] = React.useState(false); // state representing if the user has won
+
+  /**
+   * checks if the user has not won, everytime dice[] is modified
+   */
+  React.useEffect(() => {
+    console.log("Dice state changed");
+  }, [dice]); // dependencies array
+
+  /**
+   * handles winning, winning conditions are:
+   *
+   */
+  function handleWin() {}
 
   /**
    * creates a new die
@@ -81,6 +95,11 @@ export default function App() {
 
   return (
     <main>
+      <h1 className='title'>Tenzies</h1>
+      <p className='instructions'>
+        Roll until all dice are the same. Click each die to freeze it at its
+        current value between rolls.
+      </p>
       <div className='dice-container'>{diceElements}</div>
       <button className='roll-dice' onClick={rollDice}>
         Roll Dice
