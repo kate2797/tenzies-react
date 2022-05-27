@@ -7,24 +7,42 @@ export default function App() {
   const [dice, setDice] = React.useState(allNewDice()); // initialise an array of random numbers
 
   /**
+   * creates a new die
+   */
+  function createNewDie() {
+    return {
+      value: Math.floor(Math.random() * 6) + 1,
+      id: nanoid(),
+      isHeld: false,
+    };
+  }
+
+  /**
    * returns an array of die objects
    */
   function allNewDice() {
     const diceArray = [];
     for (let i = 0; i < 10; i++) {
-      let randomNum = Math.floor(Math.random() * 6) + 1;
-      // a die object
-      diceArray.push({
-        value: randomNum,
-        id: nanoid(),
-        isHeld: false,
-      });
+      diceArray.push(createNewDie()); // push a new die object
     }
     return diceArray;
   }
 
+  /**
+   * re-rolls only the dice that are not currently being held
+   */
   function rollDice() {
-    setDice(allNewDice); // get a new dice arrangement
+    // return the new state
+    setDice((prevDice) => {
+      return prevDice.map((die) => {
+        if (die.isHeld) {
+          return die; // do not touch this
+        } else {
+          // re-roll (get a new die)
+          return createNewDie();
+        }
+      });
+    });
   }
 
   /**
