@@ -2,16 +2,19 @@ import React from "react";
 import Die from "./components/Die";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
+import { useWindowSize } from "@react-hook/window-size";
 
 export default function App() {
   const [dice, setDice] = React.useState(allNewDice()); // initialise an array of random numbers
   const [tenzies, setTenzies] = React.useState(false); // state representing if the user has won
+  const [width, height] = useWindowSize();
 
   /**
    * checks if the user has not won, everytime dice[] is modified
    */
   React.useEffect(() => {
     handleWin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dice]); // dependencies array
 
   /**
@@ -29,7 +32,6 @@ export default function App() {
     }
     // if we made it here, the user has won
     setTenzies(true);
-    console.log("you wooooon!");
   }
 
   /**
@@ -121,6 +123,7 @@ export default function App() {
 
   return (
     <main>
+      {tenzies && <Confetti width={width} height={height} />}
       <h1 className='title'>Tenzies</h1>
       <p className='instructions'>
         Roll until all dice are the same. Click each die to freeze it at its
