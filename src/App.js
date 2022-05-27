@@ -1,7 +1,21 @@
 import React from "react";
+import Die from "./components/Die";
 
 export default function App() {
-    return (
-        <h1>Hello from App</h1>
-    );
+  return (
+    <main>
+      <div className='dice-container'>
+        <Die value={1} />
+        <Die value={1} />
+        <Die value={1} />
+        <Die value={1} />
+        <Die value={1} />
+        <Die value={6} />
+        <Die value={1} />
+        <Die value={1} />
+        <Die value={4} />
+        <Die value={1} />
+      </div>
+    </main>
+  );
 }
