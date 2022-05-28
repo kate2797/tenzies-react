@@ -40,12 +40,14 @@ export default function App() {
     }
   }
 
+  // if ATB is zero, keep updating in real-time
+
   /**
    * saves stats to localStorage when playing for the very first time, or when we found a new best
    */
   function saveStats() {
     let stored = localStorage.getItem("allTimeBest");
-    if (stored === 0 || noRolls < stored) {
+    if (stored === 0 || stored === null || noRolls < stored) {
       // 0 in localStorage, use current score
       // update local state of allTimeBest
       setAllTimeBest(noRolls);

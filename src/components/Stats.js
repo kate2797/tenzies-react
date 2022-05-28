@@ -10,7 +10,9 @@ export default function Stats({ noRolls, allTimeBest }) {
         </div>
         <div className='divider'></div>
         <div>
-          <p className='stats-data'>{allTimeBest}</p>
+          <p className='stats-data'>
+            {allTimeBest === 0 ? noRolls : allTimeBest} {/** handle 1st turn */}
+          </p>
           <p className='stats-description'>All Time Best</p>
         </div>
       </div>
