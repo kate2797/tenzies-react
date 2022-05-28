@@ -6,5 +6,5 @@ Tenzies is another toy project I built to help me learn the concepts of React. T
 * Roll dice
 * Freeze a die
 * Tracking current score
-* Tracking all time best (in progress)
+* Tracking all time best score
 * Star over

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 
 import Die from "./components/Die";
@@ -8,20 +9,13 @@ import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 import { useWindowSize } from "@react-hook/window-size";
 
-/**
- *  TODO:
- *  - track the number of rolls to win [x]
- *  - save best noRolls to localStorage, so you can beat yourself
- *      if nothing in LC, save the state of noRolls after the user has won
- *      if something these, compare, only save if better
- */
-
 export default function App() {
   const [dice, setDice] = React.useState(allNewDice()); // initialise an array of random numbers
   const [tenzies, setTenzies] = React.useState(false); // state representing if the user has won
   const [noRolls, setNoRolls] = React.useState(0);
-
-  const [allTimeBest, setAllTimeBest] = React.useState(0); // must be grabbed from localStorage
+  const [allTimeBest, setAllTimeBest] = React.useState(
+    localStorage.getItem("allTimeBest") || 0
+  ); // either pull out from localStorage, or if playing for the first time, set to 0
 
   const [width, height] = useWindowSize(); // for the Confetti component
 
@@ -30,7 +24,6 @@ export default function App() {
    */
   React.useEffect(() => {
     handleWin();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dice]); // dependencies array
 
   /**
@@ -39,15 +32,25 @@ export default function App() {
    *    2. all dice have the same value
    */
   function handleWin() {
-    for (let i = 0; i < dice.length - 1; i++) {
-      let die = dice[i];
-      let nextDie = dice[i + 1];
-      if (!die.isHeld || die.value !== nextDie.value) {
-        return;
-      }
+    const allHeld = dice.every((die) => die.isHeld);
+    const firstValue = dice[0].value;
+    const allSameValue = dice.every((die) => die.value === firstValue);
+    if (allHeld && allSameValue) {
+      setTenzies(true);
     }
-    // if we made it here, the user has won
-    setTenzies(true);
+  }
+
+  /**
+   * saves stats to localStorage when playing for the very first time, or when we found a new best
+   */
+  function saveStats() {
+    let stored = localStorage.getItem("allTimeBest");
+    if (stored === 0 || noRolls < stored) {
+      // 0 in localStorage, use current score
+      // update local state of allTimeBest
+      setAllTimeBest(noRolls);
+      localStorage.setItem("allTimeBest", allTimeBest);
+    }
   }
 
   /**
@@ -78,11 +81,12 @@ export default function App() {
   function newGame() {
     setDice(allNewDice());
     setTenzies(false);
+    saveStats(); // save stats before noRolls is reset
     setNoRolls(0);
   }
 
   /**
-   * re-rolls only the dice that are not currently being held
+   * re-rolls the dice that are not currently being held
    */
   function rollDice() {
     if (tenzies) {
@@ -156,7 +160,7 @@ export default function App() {
           </button>
         </div>
       </main>
-      {noRolls > 0 && <Stats noRolls={noRolls} />}
+      {noRolls > 0 && <Stats noRolls={noRolls} allTimeBest={allTimeBest} />}
       <Footer />
     </>
   );
