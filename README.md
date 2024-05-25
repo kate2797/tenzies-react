@@ -1,6 +1,6 @@
 # Tenzies
 
-Tenzies is another toy project I built to help me learn the concepts of React. The rules of Tenzies are simple; roll the dice until all are the same. Play the game yourself [here](https://kate2797.github.io/tenzies-react/) ✨.
+Tenzies is a pet project I created to learn React concepts. The rules are simple: roll the dice until they all match.
 
 ## Features
 * Roll dice
